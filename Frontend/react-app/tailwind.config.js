@@ -11,6 +11,10 @@ export default {
         retroSM: "4px 4px 0px rgba(0, 0, 0, 1)",
 
       },
+      fontFamily: {
+        PublicSans: ["Public Sans", "sans-serif"],
+        ProstoOne: ["Prosto One", "sans-serif"],
+      },
     },
   },
   plugins: [],

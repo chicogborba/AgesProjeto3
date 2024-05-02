@@ -5,7 +5,7 @@ import StyledContainer from "../StyledContainer/StyledContainer";
 const TopBar = () => {
   return (
     <div className="w-screen h-16 fixed top-0 bg-[#FDFD96] border-b-4 border-black
-     flex flex-row justify-between overflow-visible
+     flex flex-row justify-between overflow-visible z-50
      px-4 items-center">
       <div className="flex items-center flex-row-reverse">
         <StyledContainer className="p-2 translate-y-8 translate-x-[-1rem] pl-4">

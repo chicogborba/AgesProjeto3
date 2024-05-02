@@ -214,7 +214,7 @@ const FilmCarousel = () => {
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
      className="overflow-x-scroll w-screen">
-    <div className="inline-flex mt-36 w-max h-auto
+    <div className="inline-flex mt-6 w-max h-auto
     p-4 bg-[#ddaaff5f] border-8 border-black gap-3">
       {movie_carousel_data.map((movie, index) => {
         return (
@@ -226,7 +226,8 @@ const FilmCarousel = () => {
               <div className=" flex-1 bg-[#FDDA7B] border-8 border-black  py-6 rounded-xl"/>
             </div>
             <img src={`${movie.poster_path}`} alt="movie poster" className="w-64 h-96
-            border-8 border-black rounded-xl" />
+            border-8 border-black rounded-xl
+            hover:scale-105 transition-all hover:cursor-pointer"  />
             <div className="flex gap-4 mt-4">
               <div className=" flex-1 bg-[#FDDA7B] border-8 border-black  py-6 rounded-xl"/>
               <div className=" flex-1 bg-[#FDDA7B] border-8 border-black  py-6 rounded-xl"/>
