@@ -174,8 +174,46 @@ const movie_carousel_data = [
 
 const FilmCarousel = () => {
 
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const carouselRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    // @ts-ignore
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    // @ts-ignore
+    setScrollLeft(carouselRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    // @ts-ignore
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 1.3; // 3: the fastness factor
+    // @ts-ignore
+    carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+
   return (
-    <div className="overflow-x-scroll w-screen">
+    <div
+      ref={carouselRef}
+      onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+     className="overflow-x-scroll w-screen">
     <div className="inline-flex mt-36 w-max h-auto
     p-4 bg-[#ddaaff5f] border-8 border-black gap-3">
       {movie_carousel_data.map((movie, index) => {
