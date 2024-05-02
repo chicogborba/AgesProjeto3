@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, MouseEvent } from 'react';
 import 'tailwindcss/tailwind.css';
 
 const movie_carousel_data = [
@@ -179,7 +179,7 @@ const FilmCarousel = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const carouselRef = useRef(null);
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     setIsDragging(true);
     // @ts-ignore
     setStartX(e.pageX - carouselRef.current.offsetLeft);
@@ -195,7 +195,7 @@ const FilmCarousel = () => {
     setIsDragging(false);
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!isDragging) return;
     e.preventDefault();
     // @ts-ignore
