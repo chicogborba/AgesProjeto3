@@ -2,9 +2,12 @@ import React from 'react';
 
 interface CoolButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick: () => void;
+  size?: Sizes;
 }
 
-const CoolButton: React.FC<CoolButtonProps> = ({ children, onClick, ...props }) => {
+type Sizes = 'small' | 'normal' ;
+
+const CoolButton: React.FC<CoolButtonProps> = ({ children, onClick, size, ...props }) => {
     return (
         <div 
         {...props}
@@ -16,7 +19,10 @@ const CoolButton: React.FC<CoolButtonProps> = ({ children, onClick, ...props }) 
                     onClick();
                 }
             }} 
-            className={"p-4 border-black border-8 drop-shadow-retro rounded-3xl bg-[#FFEDAB] hover:scale-105 hover:cursor-pointer hover:drop-shadow-none transition-all " + props.className }
+            className={"p-4 border-black rounded-3xl bg-[#FFEDAB] hover:scale-105 hover:cursor-pointer hover:drop-shadow-none transition-all " 
+                + ( size === 'small' ? ' border-4 drop-shadow-retroSM ' : ' border-8  drop-shadow-retro ')
+                + props.className
+            }
         >
             {children}
         </div>

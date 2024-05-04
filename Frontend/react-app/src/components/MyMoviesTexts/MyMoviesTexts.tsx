@@ -1,5 +1,5 @@
 import { BiCameraMovie } from "react-icons/bi";
-import Arrow from "../../../public/arrow.svg";
+import Arrow from "/arrow.svg";
 import Title from "../Title/Title";
 
 
