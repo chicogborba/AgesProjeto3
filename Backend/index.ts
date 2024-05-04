@@ -3,20 +3,82 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
+
+interface RequestWithUser extends Request<ParamsDictionary, any, any> {
+  user?: any;
+}
 
 
 dotenv.config();
 const app = express()
 const prisma = new PrismaClient()
 const externalApiKey = process.env.MOVIE_API_KEY;
+const secretKey = process.env.JWT_SECRET_KEY;
 
 app.use(express.json());
+
+// POST USERS
+
+app.post('/register', async (req, res) => {
+  const { email, password , name } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await prisma.user.create({
+    data: {
+      email,
+      name,
+      password: hashedPassword,
+    },
+  });
+  res.json(user);
+});
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+  const valid = await bcrypt.compare(password, user.password);
+  if (!valid) {
+    return res.status(400).json({ error: 'Invalid email or password' });
+  }
+  let token = ""
+  if(secretKey !== undefined) {
+      token = jwt.sign({ id: user.id }, secretKey);
+    }
+  res.json({ token });
+});
+
+
+const authenticate = ((req:RequestWithUser, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+
+    if(secretKey !== undefined)
+    jwt.verify(token, secretKey, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
 
 
 
 // GET MOVIES
 
-app.get('/movies', async (req, res) => {
+app.get('/movies',authenticate, async (req, res) => {
     const movies = await prisma.movie.findMany()
     res.json(movies)
 }
@@ -24,7 +86,7 @@ app.get('/movies', async (req, res) => {
 
 // POST MOVIES
 
-app.post('/movies', async (req, res) => {
+app.post('/movies',authenticate , async (req, res) => {
     const { title, relaseDate, posterUrl, imdbID } = req.body
     try {
     const movie = await prisma.movie.create({
@@ -45,7 +107,7 @@ app.post('/movies', async (req, res) => {
 
 // GET POSTS
 
-app.get('/posts', async (req, res) => {
+app.get('/posts',authenticate, async (req, res) => {
   // get posts with author and movie
     const posts = await prisma.post.findMany({
         include: {
@@ -60,7 +122,7 @@ app.get('/posts', async (req, res) => {
 
 // POST POSTS
 
-app.post('/posts', async (req, res) => {
+app.post('/posts',authenticate, async (req, res) => {
     const { title, body, movieId, authorId } = req.body
     try {
       const post = await prisma.post.create({
@@ -85,7 +147,7 @@ app.post('/posts', async (req, res) => {
 
 // DELETE POSTS
 
-app.delete('/posts/:id', async (req, res) => {
+app.delete('/posts/:id',authenticate, async (req, res) => {
     const { id } = req.params
     try {
         const post = await prisma.post.delete({
@@ -102,7 +164,7 @@ app.delete('/posts/:id', async (req, res) => {
 
 // UPDATE POSTS
 
-app.put('/posts/:id', async (req, res) => {
+app.put('/posts/:id',authenticate, async (req, res) => {
     const { id } = req.params
     const { title, body } = req.body
     try {
@@ -131,23 +193,6 @@ app.get('/users', async (req, res) => {
 }
 )
 
-// POST USERS
-
-app.post('/users', async (req, res) => {
-    const { email, name } = req.body
-    try {
-      const user = await prisma.user.create({
-          data: {
-              email,
-              name
-          }
-      })
-      res.json(user)
-    }
-    catch (error) {
-        res.status(400).json({ error: 'Erro ao criar usuário: ' + error })
-    }
-})
 
 
 
