@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-interface RequestWithUser extends Request<ParamsDictionary, any, any> {
+export interface RequestWithUser extends Request<ParamsDictionary, any, any> {
   user?: any;
 }
 
