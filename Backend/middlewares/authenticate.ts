@@ -1,13 +1,15 @@
 // middlewares/authenticate.ts
 
 import { Request, Response, NextFunction } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { ParamsDictionary } from 'express-serve-static-core';
 
 interface RequestWithUser extends Request<ParamsDictionary, any, any> {
   user?: any;
 }
 
+dotenv.config();
 const secretKey = process.env.JWT_SECRET_KEY;
 
 const authenticate = ((req:RequestWithUser, res: Response, next: NextFunction) => {
@@ -29,5 +31,6 @@ const authenticate = ((req:RequestWithUser, res: Response, next: NextFunction) =
     res.sendStatus(401);
   }
 });
+
 
 export default authenticate;
