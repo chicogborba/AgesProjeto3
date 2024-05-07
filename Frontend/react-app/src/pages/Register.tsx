@@ -1,11 +1,12 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import WindowContainer from "../components/WindowContainer/WindowContainer";
 import CoolButton from "../components/CoolButton/CoolButton";
+import { useNavigate } from "react-router-dom";
 
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
@@ -13,12 +14,11 @@ const Login = () => {
     console.log('Password:', password);
   };
 
-
   const navigate = useNavigate();
 
   return (
     <div className="h-screen w-screen bg-[#FDDA7B] pt-36 pb-36 flex justify-center items-center"> 
-    <WindowContainer headerTitle={"Login"}  headerColor="bg-[#FF9B9B]" >
+    <WindowContainer headerTitle={"Register"}  headerColor="bg-[#FF9B9B]" >
       <form  className="items-center flex flex-col p-6 w-screen max-w-md px-16" onSubmit={handleSubmit}>
         <img className="rounded-full border-4 border-black h-full mb-8 max-h-40 w-auto" src="https://i.imgur.com/ryW7EFL.png"/>
         <input
@@ -30,19 +30,26 @@ const Login = () => {
           />
         <input
           className="bg-white my-4 border-4 rounded-2xl w-full p-4 border-black"
+          type="username"
+          placeholder="Nome de usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          />
+        <input
+          className="bg-white mb-4 border-4 rounded-2xl w-full p-4 border-black"
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           />
         <CoolButton size={"small"} onClick={() => console.log("bom")} className="w-5/6 text-center text-2xl font-bold font-PublicSans">
-          LOGIN
+          REGISTER
         </CoolButton>
       </form>
       <a>
           <p className="text-center mb-8 text-black">
-              Não tem uma conta?
-            <span onClick={() => navigate("/register")} className="text-blue-700 ml-2 hover:cursor-pointer">Registre-se</span>
+            Já tem uma conta? 
+            <span onClick={() => navigate("/login")} className="text-blue-700 ml-2 hover:cursor-pointer">Entre!</span>
           </p>
       </a>
         </WindowContainer>
@@ -50,4 +57,4 @@ const Login = () => {
   );
 }
 
-export default Login;
+export default Register;
