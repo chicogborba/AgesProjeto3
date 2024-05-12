@@ -1,8 +1,9 @@
 Arquivo para guardar os códigos hexa do controle remoto
-LIGA/DESLIGA = E817C7EA
+LIGA/DESLIGA = Protocol=NEC Address=0xC7EA Command=0x17 Raw-Data=0xE817C7EA 32 bits LSB first || IrSender.sendNEC(0xC7EA, 0x17, <numberOfRepeats>);
 CIMA = E619C7EA
 BAIXO = CC33C7EA
 ESQUERDA = E11EC7EA
 DIREITA = D22DC7EA
 CONFIRMA = D52AC7EA
-NETFLIX = AD52C7EA
+NETFLIX = Protocol=NEC Address=0xC7EA Command=0x52 Raw-Data=0xAD52C7EA 32 bits LSB first || IrSender.sendNEC(0xC7EA, 0x52, <numberOfRepeats>);
+
