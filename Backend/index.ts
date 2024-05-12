@@ -4,7 +4,9 @@ import movieRoutes from './routes/moviesRoutes';
 import postsRoutes from './routes/postsRoutes';
 import userRoutes from './routes/userRoutes';
 
-
+// IDEIA : 
+// Talvez utilizar o arduino com a placa ethernet para fazer um servidor local 
+// que se comunique com o servidor e consiga usar infravermelho para controlar a tv
 dotenv.config();
 const app = express()
 
