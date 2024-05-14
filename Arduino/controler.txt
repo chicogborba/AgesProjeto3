@@ -1,4 +1,7 @@
 Arquivo para guardar os códigos hexa do controle remoto
+
+------------------------ ROKU TV ------------------------
+
 LIGA/DESLIGA = Protocol=NEC Address=0xC7EA Command=0x17 Raw-Data=0xE817C7EA 32 bits LSB first 
 || IrSender.sendNEC(0xC7EA, 0x17, <numberOfRepeats>);
 
@@ -19,4 +22,23 @@ CONFIRMA = Protocol=NEC Address=0xC7EA Command=0x2A Raw-Data=0xD52AC7EA 32 bits 
 
 NETFLIX = Protocol=NEC Address=0xC7EA Command=0x52 Raw-Data=0xAD52C7EA 32 bits LSB first 
 || IrSender.sendNEC(0xC7EA, 0x52, <numberOfRepeats>);
+
+------------------------ LG ------------------------
+
+
+CIMA = Protocol=NEC Address=0x4 Command=0x40 Raw-Data=0xBF40FB04 32 bits LSB first
+|| IrSender.sendNEC(0x4, 0x40, <numberOfRepeats>);
+
+BAIXO = Protocol=NEC Address=0x4 Command=0x41 Raw-Data=0xBE41FB04 32 bits LSB first
+|| IrSender.sendNEC(0x4, 0x41, <numberOfRepeats>);
+
+ESQUERDA = Protocol=NEC Address=0x4 Command=0x7 Raw-Data=0xF807FB04 32 bits LSB first
+|| IrSender.sendNEC(0x4, 0x7, <numberOfRepeats>);
+
+DIREITA = Protocol=NEC Address=0x4 Command=0x6 Raw-Data=0xF906FB04 32 bits LSB first
+|| Send with: IrSender.sendNEC(0x4, 0x6, <numberOfRepeats>);
+
+CONFIRMA = Protocol=NEC Address=0x4 Command=0x44 Raw-Data=0xBB44FB04 32 bits LSB first
+|| IrSender.sendNEC(0x4, 0x44, <numberOfRepeats>)
+
 

@@ -3,7 +3,7 @@
 
 // Defina o endereço IP do Arduino
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192, 168, 1, 177); // Altere para o IP desejado
+IPAddress ip(192, 168, 0, 177); // Altere para o IP desejado
 
 EthernetServer server(80);
 

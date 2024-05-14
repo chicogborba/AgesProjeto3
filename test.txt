@@ -1,0 +1,1 @@
+down,down,down,right,confirm,up,up,up,right,right,right,confirm,down,down,down,left,left,left,left,confirm,right,confirm,up,up,up,right,right,right,confirm,left,left,left,confirm,down,down,right,confirm,left,left,confirm

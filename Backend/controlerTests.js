@@ -74,6 +74,7 @@
 // console.log(bfs('0','a', keyboardGraph)) // This will print the shortest path from 'a' to 'o'
 
 
+const util = require('util')
 
 const keyboardGrid = [
   ['a', 'b', 'c', 'd', 'e', 'f'],
@@ -149,4 +150,32 @@ const getAllComands = (searchWord) => {
   return result.flat()
 }
 
-console.log(getAllComands('janalinda')) // This will print the shortest path from 'a' to 'o'
+const text = "paiganhou"
+// coloca o text em lowwer case e remove tudo que nao for numero de 1-9 e letras de a-z
+
+const regex = /[^a-z0-9]/gi
+const textClean = text.toLowerCase().replace(regex, '')
+// console.log(util.inspect(getAllComands(textClean), { maxArrayLength: null })) // This will print the shortest path from 'a' to 'o'
+
+// console.log the result of the function formated to a string where each comand is separated by a coma
+
+console.log(getAllComands(textClean).join(',')) // This will print the shortest path from 'a' to 'o'
+
+// http post this console.log above to the ip http://192.168.0.177 as plain text
+
+const axios = require('axios');
+
+const textInput = getAllComands(textClean).join(',');
+
+axios.post('http://192.168.0.177', textInput, {
+  headers: {
+    'Content-Type': 'text/plain'
+  }
+})
+.then((response) => {
+  console.log(`Status: ${response.status}`);
+  console.log('Body: ', response.data);
+})
+.catch((error) => {
+  console.error(`Error: ${error}`);
+});
