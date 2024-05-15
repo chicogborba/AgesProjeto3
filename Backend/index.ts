@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import movieRoutes from './routes/moviesRoutes';
 import postsRoutes from './routes/postsRoutes';
 import userRoutes from './routes/userRoutes';
+import arduinoRoutes from './routes/arduinoRoutes';
 
 // IDEIA : 
 // Talvez utilizar o arduino com a placa ethernet para fazer um servidor local 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/", movieRoutes);
 app.use("/", postsRoutes);
 app.use("/", userRoutes);
+app.use("/", arduinoRoutes);
 
 
 app.listen(3000, () => {

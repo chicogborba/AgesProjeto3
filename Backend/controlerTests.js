@@ -150,21 +150,12 @@ const getAllComands = (searchWord) => {
   return result.flat()
 }
 
-const text = "paiganhou"
-// coloca o text em lowwer case e remove tudo que nao for numero de 1-9 e letras de a-z
+const text = "testeamanha"
 
 const regex = /[^a-z0-9]/gi
 const textClean = text.toLowerCase().replace(regex, '')
-// console.log(util.inspect(getAllComands(textClean), { maxArrayLength: null })) // This will print the shortest path from 'a' to 'o'
-
-// console.log the result of the function formated to a string where each comand is separated by a coma
-
-console.log(getAllComands(textClean).join(',')) // This will print the shortest path from 'a' to 'o'
-
-// http post this console.log above to the ip http://192.168.0.177 as plain text
 
 const axios = require('axios');
-
 const textInput = getAllComands(textClean).join(',');
 
 axios.post('http://192.168.0.177', textInput, {
