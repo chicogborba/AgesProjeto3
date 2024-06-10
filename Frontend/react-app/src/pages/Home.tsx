@@ -8,7 +8,6 @@ import TopBar from "../components/TopBar/TopBar";
 const Home = () => {
   return (
     <div className="h-screen w-screen bg-[#FDDA7B] overflow-x-hidden pt-36 pb-36">
-      <TopBar/>
       <MyMoviesTexts/>
       <FilmCarousel/>
       <div className="w-screen flex items-center justify-center">

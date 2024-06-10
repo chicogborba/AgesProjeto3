@@ -4,6 +4,7 @@ import movieRoutes from './routes/moviesRoutes';
 import postsRoutes from './routes/postsRoutes';
 import userRoutes from './routes/userRoutes';
 import arduinoRoutes from './routes/arduinoRoutes';
+import sseRoutes from './routes/sseRoutes';
 
 // IDEIA : 
 // Talvez utilizar o arduino com a placa ethernet para fazer um servidor local 
@@ -16,7 +17,7 @@ app.use("/", movieRoutes);
 app.use("/", postsRoutes);
 app.use("/", userRoutes);
 app.use("/", arduinoRoutes);
-
+app.use("/", sseRoutes);
 
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000')
