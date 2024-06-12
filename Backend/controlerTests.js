@@ -85,8 +85,6 @@ const keyboardGrid = [
   ['5', '6', '7', '8', '9', '0'],
 ]
 
-
-
 function findPathBetween2(keyboardGrid, start, end) {
 
   let startRow = 0

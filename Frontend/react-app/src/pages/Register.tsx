@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import WindowContainer from "../components/WindowContainer/WindowContainer";
 import CoolButton from "../components/CoolButton/CoolButton";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/betterLogo.svg";
 
 
 const Register = () => {
@@ -10,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
-    console.log('Email:', email);
+    console.log('Email:', e);
     console.log('Password:', password);
   };
 
@@ -18,6 +19,8 @@ const Register = () => {
 
   return (
     <div className="h-screen w-screen bg-[#FDDA7B] pt-36 pb-36 flex justify-center items-center"> 
+          <div className="flex flex-col items-center w-full h-full justify-center">
+      <img src={Logo} alt="Logo" className="mb-8"/>
     <WindowContainer headerTitle={"Register"}  headerColor="bg-[#FF9B9B]" >
       <form  className="items-center flex flex-col p-6 w-screen max-w-md px-16" onSubmit={handleSubmit}>
         <img className="rounded-full border-4 border-black h-full mb-8 max-h-40 w-auto" src="https://i.imgur.com/ryW7EFL.png"/>
@@ -53,6 +56,7 @@ const Register = () => {
           </p>
       </a>
         </WindowContainer>
+    </div>
     </div>
   );
 }

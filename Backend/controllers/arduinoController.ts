@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Request, Response } from "express";
+import { sendDataToSSE } from "./sseController";
 
 export const searchArduino = async (req: Request, res: Response) => {
   const { search } = req.body;
@@ -8,24 +9,28 @@ export const searchArduino = async (req: Request, res: Response) => {
 
   const textInput = getAllComands(textClean).join(',');
 
-  try {
-    const response = await axios.post('http://192.168.0.177', textInput, {
-      headers: {
-        'Content-Type': 'text/plain'
-      }
-    });
+  console.log(search);
+  sendDataToSSE(search);
+  res.status(200).json({ message: 'Searching started', data: textInput });
 
-    console.log(`Status: ${response.status}`);
-    console.log('Body: ', response.data);
+  // try {
+  //   const response = await axios.post('http://192.168.0.177', textInput, {
+  //     headers: {
+  //       'Content-Type': 'text/plain'
+  //     }
+  //   });
 
-    // Return the response from the server to the client
-    res.status(200).json({ message: 'Searching started', data: response.data });
-  } catch (error: any) {
-    console.error(`Error: ${error}`);
+  //   console.log(`Status: ${response.status}`);
+  //   console.log('Body: ', response.data);
 
-    // Return an error response to the client
-    res.status(500).json({ message: 'An error occurred', error: error.toString() });
-  }
+  //   // Return the response from the server to the client
+  //   res.status(200).json({ message: 'Searching started', data: response.data });
+  // } catch (error: any) {
+  //   console.error(`Error: ${error}`);
+
+  //   // Return an error response to the client
+  //   res.status(500).json({ message: 'An error occurred', error: error.toString() });
+  // }
 }
 
 const keyboardGrid: string[][] = [
