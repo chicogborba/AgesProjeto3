@@ -18,7 +18,7 @@ class SSEManager {
     public notify(userCode: string, message: string) {
       console.log(this.connections)
         if (this.connections[userCode]) {
-            this.connections[userCode]({ message });
+            this.connections[userCode](message);
         }
     }
 }

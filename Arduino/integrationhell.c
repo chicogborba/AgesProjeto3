@@ -3,22 +3,6 @@
 #include <ArduinoJson.h>
 #include <LiquidCrystal.h>
 
-
-struct irData {
-  up: String;
-  down: String;
-  left: String;
-  right: String;
-  select: String;
-}
-
-struct Control {
-  irData: irData;
-  adress : String;
-}
-
-bool isConfigured = false;
-
 // Configurações da rede
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };  // Endereço MAC da Ethernet Shield
 IPAddress ip(192, 168, 15, 177);  // IP do Arduino
@@ -36,10 +20,13 @@ int buttonState = 0;
 int lastButtonState = 0;
 
 const int IRSensorPin = 9
-String irDataStored = ""
-String AdressStored = ""
 
 void setup() {
+
+  int tSendPin = 13;
+  IrSender.begin(tSendPin, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
+
+
   Serial.begin(9600);
   lcd.begin(16, 2);  // Inicializa o display LCD com 16 colunas e 2 linhas
   lcd.print("SSE:");
@@ -70,40 +57,13 @@ void setup() {
   }
 }
 
-void configureControl() {
-    // printa no lcd a seguinte mensagem: "configure o controle remoto"
-  lcd.clear();
-  // pra cada botão do controle remoto, printa no lcd a seguinte mensagem: "pressione o botão [botão]"
-  // mostra o código do botão no lcd e aguarda a pressão do botão
-  // quando o botão é pressionado, salva o código do botão na variável correspondente da struct
-  // repete o processo para cada botão do controle remoto
-  // printa no lcd a seguinte mensagem: "configuração concluída"
-  // sendo que ele tem que salvar o adress na struct Control e os valores individuais dos botões na struct irData para cada botão
-  lcd.setCursor(0, 0);
-  lcd.print("configure o controle remoto");
-  // literar sobre todos elementos da struct irData
-  // printar no lcd a seguinte mensagem: "pressione o botão confirma"
-  lcd.setCursor(0, 0);
-  lcd.print("pressione o botão confirma");
-}
-
 void loop() {
-
-  
-
-  if (!isConfigured) {
-    configureControl();
-    isConfigured = true;
+    if (IrReceiver.decode()) {
+    Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX);  // Print "old" raw data
+    IrReceiver.printIRResultShort(&Serial);                        // Print complete received data in one line
+    IrReceiver.printIRSendUsage(&Serial);                          // Print the statement required to send this data
+    IrReceiver.resume();                                           // Enable receiving of the next value
   }
-
-  //   if (IrReceiver.decode()) {
-  //   Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX);  // Print "old" raw data
-  //   IrReceiver.printIRResultShort(&Serial);                        // Print complete received data in one line
-  //   IrReceiver.printIRSendUsage(&Serial);                          // Print the statement required to send this data
-  //   IrReceiver.resume();                                           // Enable receiving of the next value
-  // }
-
-  // usando o comentario acima refatorar tudo abaixo utilizando as 
 
   // Verifica se há dados disponíveis do servidor
   while (client.available()) {
@@ -163,5 +123,32 @@ void loop() {
     Serial.println("Conexão encerrada pelo servidor");
     client.stop();
     while (true);  // Para a execução
+  }
+}
+
+void executeCommands(String commands[], int length) {
+  // Iterando sobre a lista de comandos
+  for (int i = 0; i < length; i++) {
+    // Verificando qual é o comando
+    if (commands[i] == "confirm") {
+      IrSender.sendNEC(0xC7EA, 0x2A, 0);
+      delay(100);
+    } else if (commands[i] == "down") {
+      IrSender.sendNEC(0xC7EA, 0x33, 0);
+      delay(100);
+    } else if (commands[i] == "right") {
+      IrSender.sendNEC(0xC7EA, 0x2D, 0);
+      delay(100);
+
+    } else if (commands[i] == "up") {
+      IrSender.sendNEC(0xC7EA, 0x19, 0);
+      delay(100);
+
+    } else if (commands[i] == "left") {
+      IrSender.sendNEC(0xC7EA, 0x1E, 0);
+      delay(100);
+
+    } else {
+    }
   }
 }

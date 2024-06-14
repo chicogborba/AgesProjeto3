@@ -11,7 +11,7 @@ export const searchArduino = async (req: Request, res: Response) => {
   const textInput = getAllComands(textClean).join(',');
 
   console.log(search);
-  notifyUser( code , search);
+  notifyUser( code , textInput);
   res.status(200).json({ message: 'Searching started', data: textInput });
 
   // try {
@@ -34,13 +34,20 @@ export const searchArduino = async (req: Request, res: Response) => {
   // }
 }
 
-const keyboardGrid: string[][] = [
+const netflixKeyboardGrid: string[][] = [
   ['a', 'b', 'c', 'd', 'e', 'f'],
   ['g', 'h', 'i', 'j', 'k', 'l'],
   ['m', 'n', 'o', 'p', 'q', 'r'],
   ['s', 't', 'u', 'v', 'w', 'x'],
   ['y', 'z', '1', '2', '3', '4'],
   ['5', '6', '7', '8', '9', '0'],
+]
+
+const youtubeKeyboardGrid: string[][] = [
+  ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+  ['h', 'i', 'j', 'k', 'l', 'm', 'n'],
+  ['o', 'p', 'q', 'r', 's', 't', 'u'],
+  ['v', 'w', 'x', 'y', 'z', '-', '`'],
 ]
 
 function findPathBetween2(keyboardGrid: string[][], start: string, end: string) {
@@ -99,7 +106,7 @@ const getAllComands = (searchWord: string) => {
       result.push("confirm")
       continue
     }
-    let find = findPathBetween2(keyboardGrid, start, end)
+    let find = findPathBetween2(netflixKeyboardGrid, start, end)
     result.push(find)
     result.push("confirm")
   }

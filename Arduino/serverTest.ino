@@ -27,7 +27,7 @@ EthernetServer server(80);
 
 void setup() {
 
-  int tSendPin = 13;
+  int tSendPin = 8;
   IrSender.begin(tSendPin, ENABLE_LED_FEEDBACK, USE_DEFAULT_FEEDBACK_LED_PIN);
   // Inicializa a conexão Ethernet e o servidor
   Ethernet.begin(mac, ip);

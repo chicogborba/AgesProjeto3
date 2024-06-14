@@ -51,3 +51,6 @@ DIREITA =
 CONFIRMA = E0E016E9
 
 
+segundo teste: 
+
+Address=0x7 Command=0x60 Raw-Data=0x9F600707
