@@ -5,9 +5,10 @@ interface CoolButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: Sizes;
 }
 
-type Sizes = 'small' | 'normal' ;
+type Sizes = 'small' | 'normal' | 'smallest' ;
 
 const CoolButton: React.FC<CoolButtonProps> = ({ children, onClick, size, ...props }) => {
+    size = size || 'normal';
     return (
         <div 
         {...props}
@@ -20,7 +21,7 @@ const CoolButton: React.FC<CoolButtonProps> = ({ children, onClick, size, ...pro
                 }
             }} 
             className={"p-4 border-black rounded-3xl bg-[#FFEDAB] hover:scale-105 hover:cursor-pointer hover:drop-shadow-none transition-all " 
-                + ( size === 'small' ? ' border-4 drop-shadow-retroSM ' : ' border-8  drop-shadow-retro ')
+                + ( size === 'normal' ? ' border-8  drop-shadow-retro ' : ( size === 'small' ? ' border-4 drop-shadow-none ' : ' border-4 drop-shadow-none p-4' ))
                 + props.className
             }
         >

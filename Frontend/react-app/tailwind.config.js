@@ -1,3 +1,5 @@
+import daisyui from "daisyui"
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -17,6 +19,13 @@ export default {
       },
     },
   },
-  plugins: [],
+    plugins: [
+      daisyui
+  ],
+    daisyui: {
+    theme: "pastel",
+    themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    darkTheme: "pastel", // name of one of the included themes for dark mode
+  },
 }
 

@@ -1,41 +1,33 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from 'express';
+import SSEManager from './sseManager';
 
 const router = express.Router();
 
-// Array para armazenar conexões SSE ativas
-let sseConnections: ((data: any) => void)[] = [];
-
 // Rota para estabelecer a conexão SSE
 export const conectSSE = async (req: Request, res: Response) => {
-  // Define o cabeçalho SSE
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
+    const userCode = req.params.code;
 
-  // Função para enviar dados via SSE
-  const sendSSE = (data: any) => {
-    res.write(`data: ${JSON.stringify(data)}\n\n`);
-  };
+    // Define o cabeçalho SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
 
-  // Adiciona a conexão SSE à lista de conexões ativas
-  sseConnections.push(sendSSE);
+    // Função para enviar dados via SSE
+    const sendSSE = (data: any) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
 
-  // Remove a conexão da lista quando a conexão é fechada
-  req.on('close', () => {
-    sseConnections = sseConnections.filter(conn => conn !== sendSSE);
-  });
+    // Adiciona a conexão SSE usando o SSEManager
+    SSEManager.addConnection(userCode, sendSSE);
+
+    // Remove a conexão da lista quando a conexão é fechada
+    req.on('close', () => {
+        SSEManager.removeConnection(userCode);
+    });
 };
 
-// Função para enviar dados para todas as conexões SSE ativas
-const sendToAllSSE = (data: any) => {
-  sseConnections.forEach(sendSSE => sendSSE(data));
-  console.log(sseConnections)
+export const notifyUser = async (userCode: string, message: string) => {
+    SSEManager.notify(userCode, message);
 };
-
-// Função que recebe uma string e envia para todas as conexões SSE ativas
-export const sendDataToSSE = (data: any) => {
-  sendToAllSSE(data);
-};
-
 
 export default router;

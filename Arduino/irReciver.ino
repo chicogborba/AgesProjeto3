@@ -1,7 +1,6 @@
 // 1º pin oun
 // 2º pin gnd
 // 3º pin vcc
-
 #include <IRremote.hpp>
 #define IR_RECEIVE_PIN 2
 

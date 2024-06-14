@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { Request, Response } from "express";
-import { sendDataToSSE } from "./sseController";
+import { notifyUser } from "./sseController";
 
 export const searchArduino = async (req: Request, res: Response) => {
+  const { code } = req.params
   const { search } = req.body;
   const regex = /[^a-z0-9]/gi;
   const textClean = search.toLowerCase().replace(regex, '');
@@ -10,7 +11,7 @@ export const searchArduino = async (req: Request, res: Response) => {
   const textInput = getAllComands(textClean).join(',');
 
   console.log(search);
-  sendDataToSSE(search);
+  notifyUser( code , search);
   res.status(200).json({ message: 'Searching started', data: textInput });
 
   // try {

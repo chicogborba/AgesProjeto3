@@ -41,4 +41,13 @@ DIREITA = Protocol=NEC Address=0x4 Command=0x6 Raw-Data=0xF906FB04 32 bits LSB f
 CONFIRMA = Protocol=NEC Address=0x4 Command=0x44 Raw-Data=0xBB44FB04 32 bits LSB first
 || IrSender.sendNEC(0x4, 0x44, <numberOfRepeats>)
 
+Controle Ages
+
+LIGA/DESLIGA = E0E040BF
+CIMA = E0E006F9
+BAIXO =
+ESQUERDA =
+DIREITA =
+CONFIRMA = E0E016E9
+
 
